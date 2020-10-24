@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize')
+const { Sequelize, DataTypes } = require('sequelize')
 
 const sequelize = new Sequelize(
     'tododata',
@@ -11,12 +11,14 @@ const sequelize = new Sequelize(
 )
 
 const toDoItem = sequelize.define('toDoItem', {
-    title: {    
-        type: Sequelize.STRING,
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
         allowNull: false
     },
-    createdAt: {
-        type: Sequelize.DATE,
+    title: {    
+        type: Sequelize.STRING,
         allowNull: false
     },
     description: {
@@ -24,10 +26,19 @@ const toDoItem = sequelize.define('toDoItem', {
     },
     isCompleted: {
         type: Sequelize.BOOLEAN,
+        defaultValue: false
+    },
+    priority: {
+        type: Sequelize.INTEGER,
+        defaultValue: 1
+    },
+    deadlineDate: {
+        type: Sequelize.DATE,
+        defaultValue: Date.now(),
         allowNull: false
     }
 })
 
-toDoItem.sync({ force: true })
+// toDoItem.sync({ force: true })
 
 module.exports = toDoItem
